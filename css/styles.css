@@ -1,0 +1,596 @@
+/* ==========================================================================
+   Atlas de Países — Estilos
+   Mobile-first. Grid para las tarjetas, Flexbox para barras y controles.
+   ========================================================================== */
+
+/* ---------- 1. Variables ---------- */
+:root {
+  --fondo: #f3f6fa;
+  --superficie: #ffffff;
+  --texto: #14213d;
+  --texto-suave: #4a5773;
+  --primario: #1d4e89;
+  --primario-hover: #143a68;
+  --acento: #f4b942;
+  --borde: #d3dcea;
+  --error: #b3261e;
+  --error-fondo: #fdf1f0;
+  --foco: #2f6fd6;
+  --radio: 0.85rem;
+  --sombra: 0 0.25rem 1rem rgb(20 33 61 / 0.08);
+  --fuente: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ---------- 2. Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente);
+  line-height: 1.5;
+  color: var(--texto);
+  background-color: var(--fondo);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+a {
+  color: var(--primario);
+}
+
+.container {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--primario-hover);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ---------- 3. Encabezado y pie ---------- */
+.site-header {
+  background: linear-gradient(120deg, var(--primario-hover), var(--primario));
+  color: #fff;
+}
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding-block: 0.9rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.tagline {
+  margin: 0;
+  color: #d6e4f5;
+}
+
+.site-footer {
+  margin-top: 3rem;
+  padding-block: 1.5rem;
+  background: #e4eaf3;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 0.25rem 0;
+}
+
+/* ---------- 4. Introducción y controles ---------- */
+.titulo {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1.7rem;
+}
+
+.intro {
+  margin: 0 0 1.25rem;
+  max-width: 48rem;
+  color: var(--texto-suave);
+}
+
+.controles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  align-items: end;
+  padding: 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.7rem;
+  border: 2px solid var(--borde);
+  border-radius: 0.5rem;
+  font: inherit;
+  color: var(--texto);
+  background: #fff;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--primario);
+}
+
+.contador {
+  min-height: 1.5rem;
+  margin: 1rem 0;
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+/* ---------- 5. Botones ---------- */
+.btn {
+  min-height: 2.75rem;
+  padding: 0.55rem 1.1rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn--primario {
+  background: var(--primario);
+  color: #fff;
+}
+
+.btn--primario:hover {
+  background: var(--primario-hover);
+}
+
+.btn--secundario {
+  background: #fff;
+  color: var(--primario-hover);
+  border-color: var(--primario);
+}
+
+.btn--secundario:hover {
+  background: #e8f0fa;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- 6. Tarjetas (Grid) ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tarjeta {
+  display: flex;
+}
+
+.tarjeta-boton {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tarjeta-boton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.6rem 1.4rem rgb(20 33 61 / 0.14);
+}
+
+.bandera {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background: #e4eaf3;
+  border-bottom: 1px solid var(--borde);
+}
+
+.bandera--vacia {
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--texto-suave);
+}
+
+.tarjeta-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.tarjeta-nombre {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.tarjeta-dato,
+.tarjeta-ingreso {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.tarjeta-ingreso {
+  color: var(--texto-suave);
+}
+
+.etiqueta {
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.chip {
+  align-self: flex-start;
+  margin: 0.15rem 0;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #e8f0fa;
+  color: var(--primario-hover);
+}
+
+.chip--LCN { background: #fdecc8; color: #7a4a00; }
+.chip--ECS { background: #dfe9ff; color: #1b3f8f; }
+.chip--EAS { background: #fde2e2; color: #8f1b1b; }
+.chip--SSF { background: #dcf3e3; color: #16613a; }
+.chip--MEA { background: #f3e5d0; color: #6b4210; }
+.chip--SAS { background: #efe1fa; color: #5b2a86; }
+.chip--NAC { background: #d9f1f5; color: #0f5864; }
+
+/* Tarjetas de carga (skeleton) */
+.tarjeta--esqueleto {
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+}
+
+.tarjeta--esqueleto span {
+  display: block;
+  height: 0.85rem;
+  border-radius: 0.3rem;
+  background: #e4eaf3;
+}
+
+.tarjeta--esqueleto span:nth-child(1) { width: 70%; height: 1.1rem; }
+.tarjeta--esqueleto span:nth-child(2) { width: 55%; }
+.tarjeta--esqueleto span:nth-child(3) { width: 40%; }
+
+.tarjeta--esqueleto .bandera,
+.tarjeta--esqueleto span,
+.barra-carga {
+  animation: pulso 1.2s ease-in-out infinite;
+}
+
+@keyframes pulso {
+  50% { opacity: 0.45; }
+}
+
+/* ---------- 7. Estados ---------- */
+.estado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  background: var(--superficie);
+  border: 1px dashed var(--borde);
+  border-radius: var(--radio);
+}
+
+.estado[hidden] {
+  display: none;
+}
+
+.estado-icono {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.estado-titulo {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.estado-mensaje {
+  margin: 0 0 0.5rem;
+  color: var(--texto-suave);
+}
+
+.estado--error {
+  border: 1px solid #f0b8b3;
+  background: var(--error-fondo);
+}
+
+.estado--error .estado-titulo {
+  color: var(--error);
+}
+
+.estado--compacto {
+  padding: 1rem;
+}
+
+.spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 4px solid #d3dcea;
+  border-top-color: var(--primario);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- 8. Paginación ---------- */
+.paginacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  margin-top: 1.5rem;
+  font-weight: 600;
+}
+
+.paginacion[hidden] {
+  display: none;
+}
+
+/* ---------- 9. Ficha de detalle ---------- */
+.detalle {
+  width: min(40rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radio);
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 0.3);
+  color: var(--texto);
+}
+
+.detalle::backdrop {
+  background: rgb(20 33 61 / 0.55);
+}
+
+.detalle-contenido {
+  padding: 1.25rem 1.25rem 0;
+}
+
+.detalle-encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detalle-encabezado h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.detalle-bandera {
+  width: 9rem;
+}
+
+.bandera--grande {
+  border: 1px solid var(--borde);
+  border-radius: 0.4rem;
+}
+
+.detalle-original {
+  margin: 0.2rem 0 0;
+  color: var(--texto-suave);
+}
+
+.detalle-datos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem 1rem;
+  margin: 1.25rem 0;
+}
+
+.detalle-datos dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--texto-suave);
+}
+
+.detalle-datos dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.detalle-subtitulo {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.indicadores {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.indicador {
+  padding: 0.8rem;
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  border-radius: 0.6rem;
+}
+
+.indicador p {
+  margin: 0;
+}
+
+.indicador-nombre {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+}
+
+.indicador-valor {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primario-hover);
+  font-variant-numeric: tabular-nums;
+}
+
+.indicador-pie {
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+.indicador--vacio .indicador-valor {
+  font-size: 1rem;
+  color: var(--texto-suave);
+}
+
+.barra-carga {
+  display: block;
+  width: 70%;
+  height: 1.25rem;
+  margin-top: 0.3rem;
+  border-radius: 0.3rem;
+  background: #d3dcea;
+}
+
+.indicadores .estado {
+  grid-column: 1 / -1;
+}
+
+.detalle-cerrar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.25rem;
+}
+
+/* ---------- 10. Tableta (≥ 40em) ---------- */
+@media (min-width: 40em) {
+  .controles {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .campo--busqueda {
+    grid-column: 1 / -1;
+  }
+
+  .detalle-datos {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .indicadores {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------- 11. Escritorio (≥ 64em) ---------- */
+@media (min-width: 64em) {
+  .controles {
+    grid-template-columns: 2fr 1.3fr 1.2fr 1fr auto;
+  }
+
+  .campo--busqueda {
+    grid-column: auto;
+  }
+
+  .indicadores {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
