@@ -1,0 +1,79 @@
+name: Capturas del README
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/capturas.yml
+
+permissions:
+  contents: write
+
+jobs:
+  capturas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar Playwright
+        run: |
+          npm init -y > /dev/null
+          npm install playwright@1.47.2
+          npx playwright install --with-deps chromium
+
+      - name: Tomar capturas del sitio publicado
+        run: |
+          mkdir -p img/capturas
+          cat > capturas.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          const URL_SITIO = 'https://id0cool.github.io/atlas-paises/';
+          const DIR = 'img/capturas/';
+          const navegador = await chromium.launch();
+          const nueva = async (viewport, movil = false) => {
+            const ctx = await navegador.newContext({ viewport, locale: 'es-MX', deviceScaleFactor: 1, isMobile: movil, hasTouch: movil });
+            return ctx.newPage();
+          };
+          const esperarLista = (p) => p.waitForSelector('.tarjeta-boton', { timeout: 60000 });
+          const escribir = async (p, texto) => { await p.fill('#busqueda', texto); await p.waitForTimeout(800); };
+
+          let p = await nueva({ width: 1280, height: 820 });
+          await p.goto(URL_SITIO); await esperarLista(p); await p.waitForTimeout(2500);
+          await p.screenshot({ path: DIR + 'inicio.png' });
+
+          await p.selectOption('#region', 'LCN'); await p.selectOption('#ingreso', 'HIC'); await p.waitForTimeout(2500);
+          await p.screenshot({ path: DIR + 'filtros.png' });
+
+          await p.click('#btn-limpiar'); await escribir(p, 'méxico');
+          await p.click('.tarjeta-boton');
+          await p.waitForSelector('.indicador:not(.indicador--cargando)', { timeout: 60000 }); await p.waitForTimeout(2000);
+          await p.screenshot({ path: DIR + 'detalle.png' });
+          await p.keyboard.press('Escape');
+
+          await escribir(p, 'atlantida');
+          await p.screenshot({ path: DIR + 'vacio.png' });
+
+          p = await nueva({ width: 1280, height: 820 });
+          await p.goto(URL_SITIO + '?simular=error-api');
+          await p.waitForSelector('.estado--error', { timeout: 60000 }); await p.waitForTimeout(500);
+          await p.screenshot({ path: DIR + 'error.png' });
+
+          p = await nueva({ width: 390, height: 844 }, true);
+          await p.goto(URL_SITIO); await esperarLista(p); await p.waitForTimeout(2500);
+          await p.screenshot({ path: DIR + 'movil.png' });
+
+          await navegador.close();
+          EOF
+          node capturas.mjs
+          ls -la img/capturas
+
+      - name: Guardar capturas en el repositorio
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add img/capturas
+          git commit -m "Agrega capturas de la aplicación publicada para el README" || echo "Sin cambios"
+          git push
